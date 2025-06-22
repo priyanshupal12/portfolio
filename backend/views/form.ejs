@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Form</title>
+</head>
+<body>
+  <h1>Send a Message</h1>
+  <form onsubmit="handleSubmit(event)">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <!-- <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" required></textarea><br><br> -->
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    function handleSubmit(event) {
+      event.preventDefault(); // prevent form from reloading the page
+
+      const userName = document.getElementById('username').value;
+      console.log('Sending to /submit/form');
+      fetch('/submit/form', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({userName})
+      })
+      .then(response => response.text())
+      .then(data => {
+        alert('Server responded: ' + data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Something went wrong!');
+      });
+    }
+  </script>
+</body>
+</html>
